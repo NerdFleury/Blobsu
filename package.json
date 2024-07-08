@@ -1,12 +1,12 @@
 {
-  "name": "blobbot",
+  "name": "blobsu",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest"
   },
   "scripts": {
-    "build": "bun build --target=bun --minify ./index.ts --outdir dist",
+    "build": "bun build --target=bun --sourcemap ./index.ts --outdir ./dist",
     "dev": "bun run ./index.ts",
     "start": "bun run dist/index.js"
   },

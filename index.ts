@@ -28,7 +28,7 @@ client.on("ready", () => {
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  if (message.content.startsWith("?setuser")) {
+  if (message.content.startsWith(">setuser")) {
     setUser({ message });
   }
 
@@ -48,7 +48,7 @@ client.on("messageCreate", async (message) => {
           message: message,
         });
         message.channel.send({ embeds: [embed] });
-      } catch (error) {
+      } catch {
         message.reply(
           "User not found on database, did you perhaps forget to set your username with `>setuser`?"
         );
