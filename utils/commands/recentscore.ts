@@ -140,7 +140,7 @@ export async function recentscore({
   const formattedScore = data.scores[0].score.toLocaleString("en-US");
 
   const embed = new EmbedBuilder()
-    .setColor("#0b4143")
+    .setColor("#FFFFFF")
     .setAuthor({
       name: `Recent Blobsu ${modeNames[contents[0]]} Play for ${
         data.player.name
@@ -154,29 +154,23 @@ export async function recentscore({
     .setURL(
       `https://osu.ppy.sh/beatmapsets/${data.scores[0].beatmap.set_id}#osu/${data.scores[0].beatmap.id}`
     )
-    .addFields(
-      {
-        name: "Stats",
-        value:
-          "`Score:`\n`Combo:`\n`Mods:`\n`Ranking:`\n`Accuracy:`\n`Hits:`\n\n`PP:`\n`If FC:`",
-        inline: true,
-      },
-      {
-        name: "Value",
-        value: `${formattedScore}\n${data.scores[0].max_combo}/${
-          data.scores[0].beatmap.max_combo
-        }x\n${modsUsed}\n${
-          rankConversions[data.scores[0].grade]
-        }\n${data.scores[0].acc.toFixed(2)}%\n${data.scores[0].n300}/${
-          data.scores[0].n100
-        }/${data.scores[0].n50}/${
-          data.scores[0].nmiss
-        }\n\n${data.scores[0].pp.toFixed(2)}\n${ppdata.performance.pp.toFixed(
-          2
-        )}`,
-        inline: true,
-      }
-    )
+    .addFields({
+      name: "__Stats:__",
+      value: `**Score:** ${formattedScore}\n**Combo:** ${
+        data.scores[0].max_combo
+      }/${
+        data.scores[0].beatmap.max_combo
+      }x\n**Mods:** ${modsUsed}\n**Ranking:** ${
+        rankConversions[data.scores[0].grade]
+      }\n**Accuracy:** ${data.scores[0].acc.toFixed(2)}%\n**Hits:** ${
+        data.scores[0].n300
+      }/${data.scores[0].n100}/${data.scores[0].n50}/${
+        data.scores[0].nmiss
+      }\n**PP:** ${data.scores[0].pp.toFixed(
+        2
+      )}pp (${ppdata.performance.pp.toFixed(2)}pp for FC)`,
+      inline: true,
+    })
     .setThumbnail(
       `https://assets.ppy.sh/beatmaps/${data.scores[0].beatmap.set_id}/covers/list.jpg`
     )

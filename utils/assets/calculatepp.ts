@@ -13,19 +13,14 @@ interface CalculatePpParams {
 export async function calculatePp(params: CalculatePpParams) {
   const { beatmap_id, nkatu, ngeki, n100, n50, misses, mods, mode, combo } =
     params;
-  console.log(beatmap_id, nkatu, ngeki, n100, n50, misses, mods, mode, combo);
 
-  // Construct the query string
   const queryParams = new URLSearchParams({
     id: beatmap_id?.toString(),
-    nkatu: nkatu?.toString(),
-    ngeki: ngeki?.toString(),
     n100: n100?.toString(),
     n50: n50?.toString(),
-    misses: misses.toString(),
+    misses: "0",
     mods: mods.toString(),
     mode: mode.toString(),
-    combo: combo?.toString(),
   });
 
   try {
