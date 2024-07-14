@@ -177,7 +177,7 @@ export async function recentscore({
     .setFooter({
       text: `Beatmap by ${data.scores[0].beatmap.creator} played @ ${formattedTime} on ${formattedDate}`,
       iconURL:
-        "https://cdn.discordapp.com/attachments/1255451784550285323/1255451948254101564/Untitled-1.png?ex=667d2e3d&is=667bdcbd&hm=288a84334511bfc4fde8f3b5e68d9b9a3156165b39094730e93ac7f759fe41c8&",
+        "https://cdn.discordapp.com/attachments/1262061807766474835/1262062085886709871/blob-haikei.png?ex=66953a69&is=6693e8e9&hm=9ff87b7eb7962b58b083cc0aca3c20752c927696508e72f7a4d3db5fcca65c27&",
     });
 
   return embed;
