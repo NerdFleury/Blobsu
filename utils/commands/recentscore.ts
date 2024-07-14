@@ -135,7 +135,11 @@ export async function recentscore({
   const year = date.getFullYear();
   const formattedDate = `${month}/${day}/${year}`;
 
-  const modsUsed = getMods(data.scores[0].mods).join("");
+  let modsUsed = getMods(data.scores[0].mods).join("");
+
+  if (modsUsed.length == 0) {
+    modsUsed = "NM";
+  }
 
   const formattedScore = data.scores[0].score.toLocaleString("en-US");
 
