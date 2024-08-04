@@ -1,5 +1,5 @@
 import { EmbedBuilder, Message } from "discord.js";
-import { emotes } from "../assets/emotes";
+import { emotes } from "../constants/emotes";
 import { calculatePp } from "../assets/calculatepp";
 
 const MODS = {
@@ -40,21 +40,21 @@ const MODS = {
 const rankConversions = emotes.rankings;
 
 const modes = {
-  ">r": 0,
-  ">rs": 0,
-  ">rt": 1,
-  ">rm": 3,
-  ">rc": 2,
-  ">rx": 4,
+  "?r": 0,
+  "?rs": 0,
+  "?rt": 1,
+  "?rm": 3,
+  "?rc": 2,
+  "?rx": 4,
 };
 
 const modeNames = {
-  ">r": "Standard",
-  ">rs": "Standard",
-  ">rt": "Taiko",
-  ">rm": "Mania",
-  ">rc": "Catch",
-  ">rx": "Relax",
+  "?r": "Standard",
+  "?rs": "Standard",
+  "?rt": "Taiko",
+  "?rm": "Mania",
+  "?rc": "Catch",
+  "?rx": "Relax",
 };
 
 function getMods(bitmask: number): string[] {
@@ -80,7 +80,7 @@ export async function recentscore({
 }) {
   let type = value;
   const contents = message.content.split(" ");
-  const mode: ">rs" | ">rc" | ">rm" | ">rt" | ">rx" = modes[contents[0]];
+  const mode: "?rs" | "?rc" | "?rm" | "?rt" | "?rx" = modes[contents[0]];
 
   if (datatype === "id") {
     type = parseInt(value);

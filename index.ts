@@ -1,7 +1,9 @@
-import { Client, GatewayIntentBits, ActivityType } from "discord.js";
+import { Client, GatewayIntentBits, ActivityType, Message } from "discord.js";
 import { Database } from "bun:sqlite";
 import { setUser } from "./utils/commands/setuser";
 import { recentscore } from "./utils/commands/recentscore";
+import { FocusUserOfCommand } from "./utils/tools/finduser";
+import type { UserCommandObject } from "./utils/constants/types";
 
 const db = new Database("discordosu.sqlite", { create: true });
 const query = db.query(
@@ -28,66 +30,37 @@ client.on("ready", () => {
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  if (message.content.startsWith(">setuser")) {
+  if (message.content.startsWith("?setuser")) {
     setUser({ message });
   }
 
-  if (message.content.startsWith(">r")) {
+  if (message.content.startsWith("?r")) {
     const contents = message.content.split(" ");
-    if (contents.length == 1) {
-      try {
-        const $discord = message.author.username;
-        const query = db.prepare(
-          "select osuid from userdata where discord=$discord;"
-        );
-        const res: any = query.get($discord);
-        const osuid = res.osuid;
+    const data: UserCommandObject | null = await FocusUserOfCommand({
+      messageContents: contents,
+      message: message,
+      db: db,
+      client: client,
+    });
+
+    try {
+      if (data) {
         const embed = await recentscore({
-          datatype: "id",
-          value: osuid,
+          datatype: data?.datatype,
+          value: data?.data,
           message: message,
         });
         message.channel.send({ embeds: [embed] });
-      } catch {
-        message.reply(
-          "User not found on database, did you perhaps forget to set your username with `>setuser`?"
-        );
       }
-    }
-    if (contents.length == 2) {
-      if (contents[1].startsWith("<@")) {
-        try {
-          const user = await client.users.fetch(
-            contents[1].replace(/[<>@]/g, "")
-          );
-          const $user = user.username;
-          const query = db.prepare(
-            "select osuid from userdata where discord=$user;"
-          );
-          const res: any = query.get($user);
-          const osuid = res.osuid;
-          const embed = await recentscore({
-            datatype: "id",
-            value: osuid,
-            message: message,
-          });
-          message.channel.send({ embeds: [embed] });
-        } catch (error) {
-          message.reply(
-            "User not found on database, did they perhaps forget to set their username with `>setuser`?"
-          );
-        }
+    } catch {
+      if (contents.length == 1) {
+        message.reply(
+          "User not found on database, did you perhaps forget to set your username with `?setuser`?"
+        );
       } else {
-        try {
-          const embed = await recentscore({
-            datatype: "name",
-            value: contents[1],
-            message: message,
-          });
-          message.channel.send({ embeds: [embed] });
-        } catch (error) {
-          message.reply("User not found on blobsu");
-        }
+        message.reply(
+          "User not found on database, did they perhaps forget to their username with `?setuser`?"
+        );
       }
     }
   }
